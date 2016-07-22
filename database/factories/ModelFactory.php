@@ -39,8 +39,8 @@ $factory->defineAs(Location::class, 'usm-nearby', function (Faker\Generator $fak
   	// lat & lng for area around USM
 		'lat' => $faker->latitude(5.3, 5.4),			
 		'lng' => $faker->longitude(100.2, 100.3),
-		'mappable_id' => $ad->id,
-		'mappable_type' => get_class($ad)
+		'locatable_id' => $ad->id,
+		'locatable_type' => get_class($ad)
   ];
 });
 

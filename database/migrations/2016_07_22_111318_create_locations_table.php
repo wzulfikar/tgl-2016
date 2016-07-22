@@ -9,8 +9,8 @@ class CreateLocationsTable extends Migration {
 	{
 		Schema::create('locations', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('mappable_id');
-			$table->string('mappable_type');
+			$table->integer('locatable_id');
+			$table->string('locatable_type');
 			$table->float('lat');
 			$table->float('lng');
 			$table->timestamps();

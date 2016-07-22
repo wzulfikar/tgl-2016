@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mappable;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Lib\Traits\ValidateNearbyRequest;
@@ -18,6 +18,6 @@ class AppController extends Controller
 			return Response::json($validate['err'], 400);
 		}
 
-		return Mappable::nearby($request->lat, $request->long, $request->dist);
+		return Location::nearby($request->lat, $request->lng, $request->rad);
 	}
 }
