@@ -15,7 +15,10 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::get('nearby', 'AppController@getNearby');
+Route::get('nearby', [
+	'as' 	 => 'nearby',
+	'uses' => 'AppController@getNearby'
+]);
 
 Route::get('{user}', function(){
 	return 'h';
