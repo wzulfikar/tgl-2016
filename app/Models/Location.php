@@ -6,14 +6,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 	use App\Lib\Traits\MySQLNearbyQueryBuilder;
 
-class Mappable extends Model
+class Location extends Model
 {
 	use MySQLNearbyQueryBuilder;
 
 	// default radius (in metric)
-	const DEFAULT_RADIUS = 500;
 	const KM = 6371;
 	const MILE = 3959;
+
+	const DEFAULT_RADIUS = 1; // 1 KM or 1 MILE
+
+	/**
+	 * Get all of the owning mappable models.
+	 */
+	public function locatable()
+	{
+		return $this->morphTo();
+	}
 
 	static function nearby($lat, $lng, $rad = null)
 	{
