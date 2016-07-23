@@ -54,6 +54,10 @@ var map = new GMaps({
 
 var markers = [];
 
+function fetchAndRenderMarkers(){
+  $.getJSON( '{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}', addMarkers)
+}
+
 function addMarkers (data) {
   var markers_data = [];
 
@@ -108,8 +112,7 @@ $(document).ready(function(){
     }
   });
 
-  $.getJSON( '{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}', addMarkers);
-
+  setInterval(fetchAndRenderMarkers, 3000);
 });
   
     </script>
