@@ -158,6 +158,8 @@ header .intro-text .skills {
   color: white;
   border-color: #18BC9C;
 }
+/* disable big nav */
+/*
 @media (min-width: 768px) {
   .navbar-custom {
     padding: 25px 0;
@@ -178,6 +180,8 @@ header .intro-text .skills {
     font-size: 1.5em;
   }
 }
+*/
+
 section {
   padding: 100px 0;
 }
