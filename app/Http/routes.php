@@ -20,6 +20,13 @@ Route::get('nearby', [
 	'uses' => 'AppController@getNearby'
 ]);
 
+Route::get('/redirect', [
+	'as'   => 'oauth-login',
+	'uses' => 'AppController@redirect'
+]);
+
+Route::get('/{provider}/callback', 'AppController@callback');
+
 Route::get('{user}', function(){
 	return 'h';
 });
