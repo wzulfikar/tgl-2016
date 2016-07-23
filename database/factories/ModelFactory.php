@@ -28,6 +28,7 @@ $factory->define(Ad::class, function (Faker\Generator $faker) {
   return [
     'title' => $faker->catchPhrase,
     'desc'  => sprintf('RM %s', $faker->numberBetween(400, 600)),
+    'url'   => $faker->url
   ];
 });
 

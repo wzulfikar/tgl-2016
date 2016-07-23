@@ -11,6 +11,7 @@ class CreateAdsTable extends Migration {
 			$table->increments('id');
 			$table->string('title');
 			$table->string('desc');
+			$table->string('url');
 			$table->integer('user_id')->unsigned();
 			$table->timestamps();
 		});

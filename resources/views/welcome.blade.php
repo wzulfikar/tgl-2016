@@ -117,6 +117,11 @@ function addMarkers (data) {
 
       if (item.lat != undefined && item.lng != undefined) {
         icon.url = '//robohash.org/' + item.locatable.title + '?size=' + icon.h + 'x' + icon.w;
+        
+        distance = '<br/><br/>' + item.distance + ' KM from your location.';
+        url = item.locatable.url 
+            ? '<br><a href="' + item.locatable.url + '" target="_blank">Read more</a>'
+            : '';
 
         markers_data.push({
           lat : item.lat,
@@ -127,7 +132,7 @@ function addMarkers (data) {
             url : icon.url
           },
           infoWindow: {
-            content: '<b>' + item.locatable.desc + '</b><p>' + item.locatable.title + '</p>'
+            content: '<b>' + item.locatable.desc + '</b><p>' + item.locatable.title + distance + url + '</p>'
           }
         });
       }
@@ -138,6 +143,7 @@ function addMarkers (data) {
 }
 
 $(document).ready(function(){
+  fetchAndRenderMarkers();
   
   map.on('marker_added', function (marker) {
     var index = map.markers.indexOf(marker);
