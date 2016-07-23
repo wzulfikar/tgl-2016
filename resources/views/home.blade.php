@@ -1,57 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layout.main')
+@push('head')
+<style>
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+</style>
+@endpush
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-        <link href="{{ bower() }}/growl/stylesheets/jquery.growl.css" rel="stylesheet" type="text/css">
-        <link href="{{ bower() }}/PACE/themes/red/pace-theme-minimal.css" rel="stylesheet" type="text/css">
-        
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 96px;
-            }
-
-            #map {
-              width: 100%;
-              height: 100%;
-            }
-        </style>
-    </head>
-    <body>
+@section('container')
       <div id="map"></div>
-    </body>
-    <script src="{{ bower() }}/underscore/underscore-min.js"></script>
-    <script src="{{ bower() }}/PACE/pace.min.js"></script>
-    
-    <script src="http://maps.google.com/maps/api/js?key=AIzaSyBYUTX2BMi7YeXkQj2PbEl_V2ORd-iNhu8"></script>
-    <script src="{{ bower() }}/gmaps/gmaps.min.js"></script>
-    <script src="{{ bower() }}/jquery/dist/jquery.min.js"></script>
-    <script src="{{ bower() }}/growl/javascripts/jquery.growl.js"></script>
+@stop
+
+@push('script')
     <script>
 
 const currentCoord      = { lat: 5.314434, lng: 100.294312 },
@@ -157,5 +118,4 @@ $(document).ready(function(){
 });
   
     </script>
-
-</html>
+@endpush
