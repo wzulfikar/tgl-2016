@@ -5,6 +5,7 @@
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
         <link href="{{ bower() }}/growl/stylesheets/jquery.growl.css" rel="stylesheet" type="text/css">
+        <link href="{{ bower() }}/PACE/themes/red/pace-theme-minimal.css" rel="stylesheet" type="text/css">
         
         <style>
             html, body {
@@ -34,11 +35,18 @@
             .title {
                 font-size: 96px;
             }
+
+            #map {
+              width: 100%;
+              height: 100%;
+            }
         </style>
     </head>
-    <body id="map">
+    <body>
+      <div id="map"></div>
     </body>
     <script src="{{ bower() }}/underscore/underscore-min.js"></script>
+    <script src="{{ bower() }}/PACE/pace.min.js"></script>
     
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyBYUTX2BMi7YeXkQj2PbEl_V2ORd-iNhu8"></script>
     <script src="{{ bower() }}/gmaps/gmaps.min.js"></script>
@@ -46,19 +54,48 @@
     <script src="{{ bower() }}/growl/javascripts/jquery.growl.js"></script>
     <script>
 
-var map = new GMaps({
-  div: '#map',
-  lat: 5.314434,
-  lng: 100.294312
-});
+const currentCoord      = { lat: 5.314434, lng: 100.294312 },
+      icon              = {h: 35, w: 35},
+      reverseGeocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + currentCoord.lat + ',' + currentCoord.lng + '&sensor=true';
 
 var markers = [];
 
+var map = new GMaps({
+  div: '#map',
+  lat: currentCoord.lat,
+  lng: currentCoord.lng,
+});
+
+$(document).ajaxStart(function() {
+  $('body').addClass('loading');
+});
+$(document).ajaxStop(function() {
+  $('body').removeClass('loading');
+});
+
+// add marker for user position
+$.getJSON( reverseGeocodeUrl, function(data){
+  var addr = '';
+  if(data.results.length){
+    addr = '<p>' + data.results[0].formatted_address + '</p>';
+  }
+
+  map.addMarker({
+    lat: currentCoord.lat,
+    lng: currentCoord.lng,
+    infoWindow: {
+      content: '<b>You are here 😎</b>' + addr,
+    },
+  });
+});
+
 function fetchAndRenderMarkers(){
-  $.getJSON( '{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}', addMarkers)
+  $.getJSON( '{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}', addMarkers);
 }
 
 function addMarkers (data) {
+  $('body').removeClass('loading');
+
   var markers_data = [];
 
   // get ids of previous markers
@@ -70,12 +107,10 @@ function addMarkers (data) {
   });
 
   if (data.length > 0) {
-    $.growl.notice({ title: data.length + ' objects just spawned!', message: 'Click the icons on map to see more detail.'});
+    $.growl.notice({ title: data.length + ' object(s) just spawned!', message: 'Click the icons on map to see more detail.'});
 
     // append new data to current markers
     markers = markers.concat(data);
-
-    icon    = {h: 35, w: 35};
 
     for (var i = 0; i < markers.length; i++) {
       var item = markers[i];
