@@ -1,19 +1,39 @@
 @extends('layout.main')
 @push('head')
 <style>
-    #map {
-      width: 100%;
-      height: 100%;
-    }
+body, html {
+  height: 100%;
+}
+section#top {
+  padding-bottom:0px;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1600px) {
+  section#top {
+    padding-top:50px;
+  }
+}
+
+#map {
+  height: 100%;
+}
 </style>
 @endpush
 
-@section('container')
-      <div id="map"></div>
+@section('content')
+  <section id="top">
+    <div id="map"></div>
+  </section>
 @stop
 
 @push('script')
-    <script>
+<script>
+// set handler for view-all btn
+$('#view-all').on('click', function(){
+  alert('a');
+});
 
 const currentCoord      = { lat: 5.314434, lng: 100.294312 },
       icon              = {h: 35, w: 35},
@@ -25,13 +45,6 @@ var map = new GMaps({
   div: '#map',
   lat: currentCoord.lat,
   lng: currentCoord.lng,
-});
-
-$(document).ajaxStart(function() {
-  $('body').addClass('loading');
-});
-$(document).ajaxStop(function() {
-  $('body').removeClass('loading');
 });
 
 // add marker for user position
@@ -54,6 +67,10 @@ function fetchAndRenderMarkers(){
   $.getJSON( '{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}', addMarkers);
 }
 
+function setCountNearby(n){
+  $('#count-nearby').text('(' + n + ')');
+}
+
 function addMarkers (data) {
   $('body').removeClass('loading');
 
@@ -68,7 +85,7 @@ function addMarkers (data) {
   });
 
   if (data.length > 0) {
-    $.growl.notice({ title: data.length + ' object(s) just spawned!', message: 'Click the icons on map to see more detail.'});
+    // $.growl.notice({ title: data.length + ' object(s) just spawned!', message: 'Click the icons on map to see more detail.'});
 
     // append new data to current markers
     markers = markers.concat(data);
@@ -96,6 +113,9 @@ function addMarkers (data) {
             content: '<b>' + item.locatable.desc + '</b><p>' + item.locatable.title + distance + url + '</p>'
           }
         });
+
+        // update count nearby
+        setCountNearby(markers_data.length);
       }
     }
   }
@@ -117,5 +137,5 @@ $(document).ready(function(){
   setInterval(fetchAndRenderMarkers, 3000);
 });
   
-    </script>
+</script>
 @endpush

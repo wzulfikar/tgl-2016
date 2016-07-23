@@ -10,7 +10,7 @@
 <link href="{{ bower() }}/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Theme CSS -->
-<link href="{{ urlS() }}/css/freelancer.min.css" rel="stylesheet">
+<link href="{{ urlS() }}/css/freelancer.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="{{ bower() }}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
