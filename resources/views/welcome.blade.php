@@ -4,6 +4,7 @@
         <title>Laravel</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+        <link href="{{ bower() }}/growl/stylesheets/jquery.growl.css" rel="stylesheet" type="text/css">
         
         <style>
             html, body {
@@ -37,10 +38,12 @@
     </head>
     <body id="map">
     </body>
+    <script src="{{ bower() }}/underscore/underscore-min.js"></script>
     
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyBYUTX2BMi7YeXkQj2PbEl_V2ORd-iNhu8"></script>
     <script src="{{ bower() }}/gmaps/gmaps.min.js"></script>
     <script src="{{ bower() }}/jquery/dist/jquery.min.js"></script>
+    <script src="{{ bower() }}/growl/javascripts/jquery.growl.js"></script>
     <script>
 
 var map = new GMaps({
@@ -49,14 +52,29 @@ var map = new GMaps({
   lng: 100.294312
 });
 
-function addMarkers (data) {
-  var items, markers_data = [];
-  if (data.length > 0) {
-    items = data;
-    icon  = {h: 35, w: 35};
+var markers = [];
 
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
+function addMarkers (data) {
+  var markers_data = [];
+
+  // get ids of previous markers
+  currentMarkerIds = _.pluck(markers, 'id');
+
+  // exclude currentMarkerIds from incoming data
+  data = _.reject(data, function(marker){ 
+    return currentMarkerIds.indexOf(marker.id) > -1;
+  });
+
+  if (data.length > 0) {
+    $.growl.notice({ title: data.length + ' objects just spawned!', message: 'Click the icons on map to see more detail.'});
+
+    // append new data to current markers
+    markers = markers.concat(data);
+
+    icon    = {h: 35, w: 35};
+
+    for (var i = 0; i < markers.length; i++) {
+      var item = markers[i];
 
       if (item.lat != undefined && item.lng != undefined) {
         icon.url = '//robohash.org/' + item.locatable.title + '?size=' + icon.h + 'x' + icon.w;
@@ -85,15 +103,13 @@ $(document).ready(function(){
   map.on('marker_added', function (marker) {
     var index = map.markers.indexOf(marker);
 
-    $(marker).trigger('click');
     if (index == map.markers.length - 1) {
       map.fitZoom();
     }
   });
 
-  var xhr = $.getJSON('{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}');
+  $.getJSON( '{{ urlS(route('nearby')) }}?lat=5.314434&lng=100.294312&rad={{ \Request::input('rad') }}', addMarkers);
 
-  xhr.done(addMarkers);
 });
   
     </script>
