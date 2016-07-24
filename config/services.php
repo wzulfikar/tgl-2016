@@ -38,7 +38,7 @@ return [
     'facebook' => [
         'client_id' => env('FB_CLIENT_ID'),
         'client_secret' => env('FB_CLIENT_SECRET'),
-        'redirect' => env('FB_REDIRECT', '/'),
+        'redirect' => env('FB_REDIRECT', 'https://tgl-virtual-shop.iium.online/facebook/callback'),
     ],
 
 ];

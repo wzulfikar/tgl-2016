@@ -25,6 +25,11 @@ Route::get('/redirect', [
 	'uses' => 'AppController@redirect'
 ]);
 
+Route::get('/auth/logout', [
+	'as'   => 'logout',
+	'uses' => 'Auth\AuthController@logout'
+]);
+
 Route::get('/{provider}/callback', 'AppController@callback');
 
 Route::get('{user}', function(){

@@ -32,7 +32,7 @@ section#top {
 <script>
 // set handler for view-all btn
 $('#view-all').on('click', function(){
-  alert('a');
+  alert('Sorry, still working on it!');
 });
 
 const currentCoord      = { lat: 5.314434, lng: 100.294312 },

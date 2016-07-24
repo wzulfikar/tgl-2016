@@ -30,12 +30,10 @@ class AppController extends Controller
 
 	public function callback(Request $request, $provider)
 	{
-		$providerUser = Socialite::driver($provider)->user();
+		$user = $this->findOrCreateProviderUser(Socialite::driver($provider)->user());
 
-		$user = $this->findOrCreateProviderUser(Socialite::driver('facebook')->user());
+		auth()->login($user, true);
 
-		auth()->login($user);
-
-		return redirect()->to('/home');
+		return redirect()->to('/');
 	}
 }

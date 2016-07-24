@@ -15,9 +15,15 @@
                 <li id="view-all">
                     <a href="#">View All Nearby <span id='count-nearby'></span></a>
                 </li>
-                <li id="view-all">
+                @if(!auth()->check())
+                <li>
                     <a href="{{ urlS(route('oauth-login')) }}">Login via FB</a>
                 </li>
+                @else
+                <li>
+                    <a href="{{ urlS(route('logout')) }}">Logout ({{ auth()->user()->name }})</span></a>
+                </li>
+                @endif
             </ul>
         </div>
         <!-- /.navbar-collapse -->
