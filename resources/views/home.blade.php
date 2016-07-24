@@ -37,7 +37,7 @@ $('#view-all').on('click', function(){
 
 const currentCoord      = { lat: 5.314434, lng: 100.294312 },
       icon              = {h: 35, w: 35},
-      reverseGeocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + currentCoord.lat + ',' + currentCoord.lng + '&sensor=true';
+      reverseGeocodeUrl = '//maps.googleapis.com/maps/api/geocode/json?latlng=' + currentCoord.lat + ',' + currentCoord.lng + '&sensor=true';
 
 var markers = [];
 
